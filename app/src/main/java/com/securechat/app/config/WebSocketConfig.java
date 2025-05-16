@@ -15,8 +15,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/chat")
                 .setAllowedOrigins("http://localhost:8080")
                 .withSockJS();
-        WebSocketMessageBrokerConfigurer.super.registerStompEndpoints(registry);
-
     }
 
     @Override
@@ -25,6 +23,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.enableSimpleBroker("/topic"); // "/topic/chatRoom1
         registry.setApplicationDestinationPrefixes("/app");
 //        expect message with /api/sendmessage
-        WebSocketMessageBrokerConfigurer.super.configureMessageBroker(registry);
     }
 }
