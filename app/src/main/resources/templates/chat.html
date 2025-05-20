@@ -46,9 +46,9 @@
 
     <div id="chat" class="border rounded p-3 mb-3" style="height: 300px; overflow-y: auto;"></div>
 
-    <!-- Sender input (Warden by default) -->
+    <!-- Sender input -->
     <div class="input-group mb-2">
-        <input id="senderInput" type="text" class="form-control" value="Warden" readonly/>
+        <input id="senderInput" type="text" class="form-control" placeholder="Enter your name"/>
     </div>
 
     <!-- Message input and Send button -->
@@ -60,7 +60,7 @@
 
 <script>
     let stompClient = null;
-    let currentUser = "Warden"; // Warden is the default user
+    let currentUser = "";
 
     function setConnected(connected) {
         document.getElementById('sendMessage').disabled = !connected;
@@ -102,10 +102,18 @@
     }
 
     function sendMessage() {
-        const sender = document.getElementById('senderInput').value.trim();
-        const content = document.getElementById('messageInput').value.trim();
+        const senderInput = document.getElementById('senderInput');
+        const messageInput = document.getElementById('messageInput');
+        const sender = senderInput.value.trim();
+        const content = messageInput.value.trim();
 
         if (!sender || !content) return;
+
+        // Set current user only once and disable name input
+        if (!currentUser) {
+            currentUser = sender;
+            senderInput.disabled = true;
+        }
 
         const chatMessage = {
             sender: sender,
@@ -113,7 +121,7 @@
         };
 
         stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
-        document.getElementById('messageInput').value = '';
+        messageInput.value = '';
     }
 
     document.getElementById('sendMessage').onclick = sendMessage;
