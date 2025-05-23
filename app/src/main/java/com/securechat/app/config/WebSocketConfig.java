@@ -12,8 +12,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat")
-                .setAllowedOrigins("http://localhost:8080")
+        registry.addEndpoint("/ws")
+                .setAllowedOriginPatterns("*")
+//                .setAllowedOrigins(
+//                        "http://10.0.2.2:8081",   // Metro on Windows
+//                        "http://localhost:8081",   // Metro on Windows
+//                        "http://192.168.1.5:8081", // your device IP
+//                        "exp://192.168.1.5:19000"  // Expo tunnel
+//                )
                 .withSockJS();
     }
 
